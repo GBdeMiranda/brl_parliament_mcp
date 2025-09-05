@@ -88,6 +88,48 @@ async def getBillText(number: str, year: str) -> str:
 
     return "\n\n--- (New Document) ---\n\n".join(all_extracted_text)
 
+
+@mcp.tool()
+async def getSenatorProfile(name: str) -> str:
+    """
+    Get the basic profile of a Brazilian senator by name.
+
+    Args:
+        name: The name of the senator to search for.
+    """
+    search_name = name.lower()
+    list_url = f"{API_BASE_URL}/senador/lista/atual"
+    
+    data = await make_senate_request(list_url)
+    
+    if not data or "ListaParlamentarEmExercicio" not in data:
+        return "Could not fetch the list of senators from the API."
+
+    senators = data.get("ListaParlamentarEmExercicio", {}).get("Parlamentares", {}).get("Parlamentar", [])
+    
+    found_senator_info = None
+    for senator in senators:
+        info = senator.get("IdentificacaoParlamentar", {})
+        full_name = info.get("NomeCompletoParlamentar", "").lower()
+        parliamentary_name = info.get("NomeParlamentar", "").lower()
+        
+        if search_name in full_name or search_name in parliamentary_name:
+            found_senator_info = info
+            break
+            
+    if not found_senator_info:
+        return f"No senator found matching the name '{name}'."
+
+    profile = (
+        f"Name: {found_senator_info.get('NomeCompletoParlamentar', 'N/A')}\n"
+        f"Parliamentary Name: {found_senator_info.get('NomeParlamentar', 'N/A')}\n"
+        f"Party: {found_senator_info.get('SiglaPartidoParlamentar', 'N/A')} - {found_senator_info.get('UfParlamentar', 'N/A')}\n"
+        f"Email: {found_senator_info.get('EmailParlamentar', 'N/A')}\n"
+        f"Senator Code: {found_senator_info.get('CodigoParlamentar', 'N/A')}"
+    )
+    
+    return profile
+
 if __name__ == "__main__":
     # Initialize and run the server
     mcp.run(transport='stdio')
