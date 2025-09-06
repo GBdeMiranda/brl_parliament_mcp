@@ -8,7 +8,8 @@ This project provides an interface to interact with the legislative data of the 
 
 1. Install the MCP tool globally from the project directory:
 ```
-`uv tool install -e .`
+uv tool install -e .
+```
 
 2. Add your servers in the mcpServers key
 ```
