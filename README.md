@@ -1,6 +1,6 @@
-# Brazilian Parliament MCP Server
+# Brazilian Congress MCP Server
 
-An MCP (Model Context Protocol) server that provides access to Brazilian Parliament legislative data, specifically enabling retrieval and analysis of Senate bills and legislative documents.
+An MCP (Model Context Protocol) server that provides access to Brazilian Parliament legislative data, specifically enabling the retrieval and analysis of Senate bills and legislative documents.
 
 ## Installation
 
