@@ -19,54 +19,42 @@ An MCP (Model Context Protocol) server that provides access to Brazilian Parliam
 
 2. **Navigate to the MCP server directory**:
    ```bash
-   cd mcp_senate
+   cd mcp_brl_congress
    ```
 
-3. **Install dependencies**:
+3. **Install the MCP tool**:
+  ```bash
+  uv tool install -e .
+  ```
 
-   Using UV (recommended):
-   ```bash
-   uv sync
-   ```
+4. Add your servers in the mcpServers key
+```
+    "mcp_brl_congress": {
+        "command": "mcp_brl_congress"
+    }
+```
 
-   Or using pip:
-   ```bash
-   pip install mcp[cli] httpx PyMuPDF
-   ```
 
 ## Usage
 
-### Running the MCP Server
-
-To start the MCP server locally:
-
-```bash
-cd mcp_senate
-uv run mcp_server.py
-```
+Restart your MCP client to apply the changes.
 
 ### MCP Client Integration
 
 To integrate this server with an MCP client, add the following configuration to your MCP client's settings:
 
 ```json
-{
-  "mcpServers": {
-    "brazil_senate": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/absolute/path/to/brl_parliament_mcp/mcp_senate",
-        "run",
-        "mcp_server.py"
-      ]
+    "mcp_brl_congress": {
+        "command": "mcp_brl_congress"
     }
-  }
-}
 ```
 
-Replace `/absolute/path/to/brl_parliament_mcp/mcp_senate` with the actual absolute path to the mcp_senate directory on your system.
+### Testing the Integration
 
+Send a request to the MCP server. For instance:
+```
+Explique o PL 2630 de 2020 do senado brasileiro.
+```
 
 ## API Details
 
